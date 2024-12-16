@@ -1,5 +1,10 @@
 import kagglehub
 from serpapi import GoogleSearch
+from dotenv import load_dotenv
+import os
+import requests
+
+load_dotenv(dotenv_path="secret.env" ,verbose=True)
 
 def download_walmart_2010_2012():
     
@@ -34,27 +39,52 @@ def download_target_market_sales_2016_2018():
     
     
     
-def get_locations(location_name:str , country:str , language:str):
+def get_locations(location_name:str , country:str):
+    api_key = os.getenv("Key")
+    print(api_key)
     params = {
-        "engine": "google",
-        "q": "Coffee",
-        "api_key": "fe1f5b2f75661d67a7d7a3381a6a9b45c65281def54fbe204a6655ab5c9acf92"
+        "engine": "google_local",
+        "q": f"{location_name}",
+        "location": f"{country}",
+        "api_key": api_key,
+        # "start":40, make errors
     }
+    
+    search = GoogleSearch(params)
+    results = search.get_dict()
+    local_results = results["local_results"] 
+    return local_results
+    
+    
+    
+    
+def get_stock_price(company:str):
+    api_key = os.getenv("Key")
+    print(api_key)
+    q =  f"{company} stock price"
+    if company.startswith("car"):
+        q = "carrefour stock symbol"
 
-    search = GoogleSearch(params)
-    results = search.get_dict()
-    organic_results = results["organic_results"]
-    
-    
-    
-    
-def get_stock_price():
     params = {
         "engine": "google",
-        "q": "Coffee",
-        "api_key": "fe1f5b2f75661d67a7d7a3381a6a9b45c65281def54fbe204a6655ab5c9acf92"
+        "q": q,
+        "api_key": api_key,
+        "output":"json",
+        "no_cache":False
     }
-    
     search = GoogleSearch(params)
     results = search.get_dict()
-    organic_results = results["organic_results"]
+    print(results)
+    answer_box = results["answer_box"]
+    financials = results["knowledge_graph"]["financials"]
+    return [financials , answer_box , answer_box["price_movement"]]
+    
+    #Deprecated
+    
+    # replace the "demo" apikey below with your own key from https://www.alphavantage.co/support/#api-key
+    #     url = f"https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={company}&apikey={api_key}"
+    #     r = requests.get(url)
+    #     data = r.json()
+    #     
+    #     print(data)
+    #     return data
