@@ -10,10 +10,10 @@ from scrapping import *
 # carrefour_locations_list = get_locations("Carrefour" , "United States")
 # target_locations_list = get_locations("Target Market" , "United States")
 
-walmart_stock_price = get_stock_price("Walmart")[0]
-carrefour_stock_price = get_stock_price("carrefour")[1]
-target_market_stock_price = get_stock_price("Target")[1]
+# walmart_stock_price = get_stock_price("Walmart")[0]
+# carrefour_stock_price = get_stock_price("carrefour")[1]
+# target_market_stock_price = get_stock_price("Target")[1]
 
 
 
-print(walmart_stock_price)
+# print(walmart_stock_price)

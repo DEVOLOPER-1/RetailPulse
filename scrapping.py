@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 import requests
 
+
 load_dotenv(dotenv_path="secret.env" ,verbose=True)
 
 def download_walmart_2010_2012():
