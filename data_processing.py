@@ -1,7 +1,6 @@
 import sqlite3
-
-from adodbapi import Cursor
-
+from sqlalchemy import create_engine
+import pandas as pd
 
 def create_db()->sqlite3.Connection:
     connection = sqlite3.connect("all_markets_data.db")
@@ -84,3 +83,9 @@ def locations_query_builder(values:dict)->str:
     """
 
     return q
+
+def retrieve_table(table_name:str , db_url:str)->dict:
+    # db_url = "sqlite://all_markets_data.db"
+    # engine = create_engine(db_url , echo=True)
+    df = pd.read_sql_table(table_name, db_url)
+    return df.to_dict()
