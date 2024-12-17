@@ -21,8 +21,13 @@ def build_finances(is_it_first_time:bool = False):
 
 def build_locations():
     Walmart_locations_list = get_and_parse_locations("Walmart" , "United States")
-    # carrefour_locations_list = get_locations("Carrefour" , "United States")
-    # target_locations_list = get_locations("Target Market" , "United States")
-    # print(Walmart_locations_list)
-    print(Walmart_locations_list)
-build_locations()
+    carrefour_locations_list = get_and_parse_locations("Carrefour" , "United States")
+    target_locations_list = get_and_parse_locations("Target Market" , "United States")
+    for single_list in [Walmart_locations_list , carrefour_locations_list , target_locations_list]:
+        print(single_list)
+        for single_dict in single_list.values():
+            print(single_dict)
+            execute_query( locations_query_builder( single_dict ) )
+
+
+# build_locations()

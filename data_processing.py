@@ -74,3 +74,13 @@ def finances_query_builder(values:dict , mode:str = "insertion" or "update")->st
     return q
 
 
+def locations_query_builder(values:dict)->str:
+    q = ""
+    q = f""" INSERT INTO LOCATIONS (title, company, lat, lon, ID, delivery)
+        VALUES (
+        '{values["title"].replace("'", "")}' , '{values["company"]}' , {values["lat"]} ,
+        {values["lon"]} , '{values["id"]}' , {values["delivery"]})
+
+    """
+
+    return q

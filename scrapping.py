@@ -2,7 +2,6 @@ import kagglehub
 from serpapi import GoogleSearch
 from dotenv import load_dotenv
 import os
-import requests
 
 
 load_dotenv(dotenv_path="secret.env" ,verbose=True)
@@ -135,7 +134,7 @@ def get_and_parse_locations(location_name: str, country: str) -> dict:
     for a_dict in locations_list:
         try:
             x[counter] = {
-                # "delivery": a_dict["service_options"].get("delivery", True),
+                "delivery": True,
                 "title": a_dict.get("title", f"{location_name}"),
                 "company": a_dict.get("place_id_search", "").split("=")[-1] if "place_id_search" in a_dict else "",
                 "lat": a_dict["gps_coordinates"].get("latitude", 0.0),
