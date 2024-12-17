@@ -12,8 +12,8 @@ from scrapping import *
 
 # walmart_stock_price = get_stock_price("Walmart")[0]
 # carrefour_stock_price = get_stock_price("carrefour")[1]
-# target_market_stock_price = get_stock_price("Target")[1]
+target_market_stock_price = get_stock_price("Target")
 
 
 
-# print(walmart_stock_price)
+print(target_market_stock_price)
