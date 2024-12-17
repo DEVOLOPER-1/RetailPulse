@@ -1,0 +1,34 @@
+Temp Text for testing Hypothesis
+
+
+Welcome to Alpha Vantage! Your API key is: . Please record this API key at a safe place for future data access.
+
+
+
+
+
+
+
+[
+
+{'quarterly_financials': 
+
+[
+
+{'table': [['(USD)', 'Nov 2024', 'Y/Y'], ['Revenue', '25.67B', '1.06%'], ['Net income', '854M', '-12.05%'], ['Diluted EPS', '1.85', '-11.9%'], ['Net profit margin', '3.33%', '-12.83%']], 'formatted': [{  'usd': 'Revenue', 'nov_2024': '25.67B', 'y_y': '1.06%'}, {'usd': 'Net income', 'nov_2024': '854M', 'y_y': '-12.05%'}, {'usd': 'Diluted EPS', 'nov_2024': '1.85', 'y_y': '-11.9%'}, {'usd': 'Net profit margin', 'nov_2024': '3.33%', 'y_y': '-12.83%'}]}
+
+], 
+
+'earnings_calls': {'summary': {'table': [['Previous', 'EPS', 'Revenue'], ['Oct 2024', '-Miss -19.56%', '-Miss -0.90%']], 'formatted': [{'previous': 'Oct 2024', 'eps': '-Miss -19.56%', 'revenue': '-Miss -0.90%'}]}}
+
+}
+
+, 
+
+{'type': 'finance_results', 'title': 'Target Corp', 'exchange': 'NYSE', 'stock': ' TGT', 'currency': 'USD', 'price': 132.45, 'thumbnail': 'https://serpapi.com/searches/676122b8bdd7f43956f19dfe/images/62ef2d7324c3c8687fe64250b1c2cb0a15f229d625c60ef6.png', 'price_movement': {'price': 2.07, 'percentage': 1.54, 'movement': 'Down', 'date': 'today'}, 'market': {'closed': True, 'date': 'Dec 16, 7:53 PM EST', 'trading': 'After hours', 'price': 132.2, 'price_movement': {'price': 0.25, 'percentage': 0.19, 'movement': 'Down'}}, 'previous_close': 134.52, 'table': [{'name': 'Open', 'value': 133.55}, {'name': 'High', 'value': 134.82}, {'name': 'Low', 'value': 131.76}, {'name': 'Mkt cap', 'value': 60690000000}, {'name': 'P/E ratio', 'value': 14.04}, {'name': 'Div yield', 'value': 3.38}, {'name': 'CDP scoreA measure of the actions a company takes to address climate change.View score details • About CDP scores', 'value': '-'}, {'name': '52-wk high', 'value': 181.86}, {'name': '52-wk low', 'value': 120.21}]}
+, 
+
+
+{'price': 2.07, 'percentage': 1.54, 'movement': 'Down', 'date': 'today'}
+
+]

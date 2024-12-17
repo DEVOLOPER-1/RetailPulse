@@ -1,3 +1,5 @@
+from locale import currency
+
 import kagglehub
 from serpapi import GoogleSearch
 from dotenv import load_dotenv
@@ -78,7 +80,8 @@ def get_stock_price(company:str):
     print(results)
     answer_box = results["answer_box"]
     financials = results["knowledge_graph"]["financials"]
-    return [financials , answer_box , answer_box["price_movement"]]
+    price_movement = answer_box["price_movement"]
+    return [financials , answer_box , price_movement]
     
     #Deprecated
     
@@ -89,3 +92,50 @@ def get_stock_price(company:str):
     #     
     #     print(data)
     #     return data
+
+
+def format_month_year(value:str) -> str:
+    x = value.split()[0].lower()
+    y = value.split()[1]
+    return x+'_'+y
+def convert_to_real_value(value:str)->int:
+    print(value[ :-1])
+    x = 0
+    if value.endswith("M"):
+        x = float(value[ :-1])*(10**6)
+    elif  value.endswith("B"):
+        x = float(value[ :-1])*(10**9)
+    elif value.endswith("T"):
+            x = float(value[ :-1])*(10**12)
+    return x
+def get_and_parse_stock_price(company:str)->list:
+    
+    unparsed_out = get_stock_price(company)
+    year_and_month = format_month_year(unparsed_out[0]['quarterly_financials'][0]["table"][0][1])  #Nov 2024 -> nov_2024
+    print(year_and_month)
+    revenue = convert_to_real_value(unparsed_out[0]['quarterly_financials'][0]["formatted"][0][year_and_month])
+    net_income = convert_to_real_value(unparsed_out[0]['quarterly_financials'][0]["formatted"][1][year_and_month])
+    currency = unparsed_out[1]['currency']
+    stock = unparsed_out[1]['stock']
+    stock_price = unparsed_out[1]['price']
+    stock_price_movement_status = unparsed_out[2]['movement'].lower()
+    stock_price_movement = unparsed_out[2]['price']
+    exchange = unparsed_out[1]['exchange']
+    market_cap_value = unparsed_out[1]['table'][3]['value']
+    corp_title = unparsed_out[1]['title']
+    return [revenue 
+        , net_income 
+        , stock 
+        , currency 
+        , stock_price 
+        , 
+     stock_price_movement_status ,
+     stock_price_movement , 
+            market_cap_value , 
+            exchange , 
+            corp_title]
+    
+
+
+
+

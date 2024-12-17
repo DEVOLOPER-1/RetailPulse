@@ -1,4 +1,6 @@
 from scrapping import *
+from data_processing import*
+
 
 # download_walmart_2010_2012()
 # download_walmart_stock_data_2024()
@@ -10,10 +12,16 @@ from scrapping import *
 # carrefour_locations_list = get_locations("Carrefour" , "United States")
 # target_locations_list = get_locations("Target Market" , "United States")
 
-# walmart_stock_price = get_stock_price("Walmart")[0]
-# carrefour_stock_price = get_stock_price("carrefour")[1]
-target_market_stock_price = get_stock_price("Target")
+walmart_stock_price = get_and_parse_stock_price("Walmart")
+# carrefour_stock_price = get_and_parse_stock_price("carrefour")
+# target_market_stock_price = get_and_parse_stock_price("Target")
 
 
 
-print(target_market_stock_price)
+print( walmart_stock_price)
+
+# INSERTION INTO DB
+# q = """INSERT INTO  FINANCES (revenue , net_income , stock , currency , stock_price , stock_price_movement_status , stock_price_movement , market_cap_value , exchange)
+#         VALUES ()
+# """
+# insert_or_update()
