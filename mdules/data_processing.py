@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 import pandas as pd
 
 def create_db()->sqlite3.Connection:
-    connection = sqlite3.connect("all_markets_data.db")
+    connection = sqlite3.connect("../all_markets_data.db")
     return connection
 
 

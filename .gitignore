@@ -2,4 +2,4 @@
 *.env
 *.pyc
 /scrapped_data/
-keys.txt
+complementaries/keys.txt

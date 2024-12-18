@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 
 
-load_dotenv(dotenv_path="secret.env" ,verbose=True)
+load_dotenv(dotenv_path="../secret.env", verbose=True)
 
 def download_walmart_2010_2012():
     

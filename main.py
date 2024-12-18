@@ -1,9 +1,10 @@
-from automator import *
-from flask import Flask, request, jsonify, render_template
+from mdules.automator import *
+from flask import Flask, jsonify, render_template
 
-build_locations()
+# build_locations()
+# build_finances()
 
-df = retrieve_table("LOCATIONS" , "sqlite:///all_markets_data.db")
+
 
 
 app = Flask(__name__)
