@@ -1,6 +1,6 @@
 
 function fetchCompetitorsMapData() {
-    fetch('http://localhost:63342/api/locations')
+    fetch('/api/locations')
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);

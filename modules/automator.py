@@ -1,5 +1,5 @@
 from scrapping import *
-from data_processing import*
+from modules.data_processing import *
 
 
 def download_all_possible_data():

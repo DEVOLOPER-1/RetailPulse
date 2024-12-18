@@ -1,4 +1,6 @@
-from mdules.automator import *
+from modules.data_processing import retrieve_table
+from modules.automator import build_finances
+
 from flask import Flask, jsonify, render_template
 from flask_cors import CORS
 
@@ -8,7 +10,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 
 CORS(app) #enables  Flask app to handle requests from different origins
-@app.route('templates/')
+@app.route('/')
 def index():
     return render_template("index.html")
 
@@ -23,4 +25,4 @@ def financials():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=63342)
+    app.run(debug=True)
