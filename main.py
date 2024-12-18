@@ -1,5 +1,5 @@
 from modules.data_processing import retrieve_table
-from modules.automator import build_finances
+from modules.automator import build_finances , build_locations 
 
 from flask import Flask, jsonify, render_template
 from flask_cors import CORS
