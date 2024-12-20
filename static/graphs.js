@@ -1,9 +1,23 @@
 function fetchImage(image_name, imageId) {
+    try {
+        const imgElement = document.getElementById(imageId);
+        if (!imgElement) {
+            console.error('Image element not found:', imageId);
+            return;
+        }
 
-            const imgElement = document.getElementById(imageId);
-            imgElement.src = `/static/media/${image_name}.png`; 
+        // Set image source with error handling
+        imgElement.onerror = function() {
+            console.error('Failed to load image:', image_name);
+            imgElement.src = '/static/media/placeholder.png';
+        };
 
+        imgElement.src = `/static/media/${image_name}.png`;
+    } catch (error) {
+        console.error('Error in fetchImage:', error);
+    }
 }
+
 
 function updateContainerValues(row) {
     // Helper function to format large numbers
