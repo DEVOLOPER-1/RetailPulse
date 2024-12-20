@@ -1,4 +1,4 @@
-from scrapping import *
+from modules.scrapping import *
 from modules.data_processing import *
 
 
@@ -10,15 +10,15 @@ def download_all_possible_data():
 
 
 def build_finances(is_it_first_time:bool = False):
-    walmart_finances = get_and_parse_stock_price("Walmart")
-    carrefour_finances = get_and_parse_stock_price("carrefour")
-    target_market_finances = get_and_parse_stock_price("Target")
+    walmart_finances = get_and_parse_stock_price("Walmart Inc" , using="yfinance")
+    carrefour_finances = get_and_parse_stock_price("Carrefour S A F Sponsored France ADR" , using="yfinance")
+    target_market_finances = get_and_parse_stock_price("Target Corp" , using="yfinance")
+    # Connection = MountingScrappingServer()
     for single_dict in [walmart_finances , carrefour_finances , target_market_finances]:
         if is_it_first_time:
-            execute_query(finances_query_builder(single_dict , mode="insert"))
+            execute_query(finances_query_builder(single_dict, mode="insert"))
         elif not is_it_first_time:
-            execute_query(finances_query_builder(single_dict , mode="UPDATE"))
-
+            execute_query(finances_query_builder(single_dict, mode="UPDATE"))
 def build_locations():
     Walmart_locations_list = get_and_parse_locations("Walmart" , "United States")
     carrefour_locations_list = get_and_parse_locations("Carrefour" , "United States")

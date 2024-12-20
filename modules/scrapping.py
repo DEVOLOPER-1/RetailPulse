@@ -1,8 +1,10 @@
 import kagglehub
 from serpapi import GoogleSearch
 from dotenv import load_dotenv
+import yfinance as yf
+from modules.data_processing import execute_query_return_results , MountingScrappingServer
+import pandas_datareader as pdr
 import os
-
 
 load_dotenv(dotenv_path="../secret.env", verbose=True)
 
@@ -56,39 +58,15 @@ def get_locations(location_name:str , country:str):
     return local_results
     
     
-    
-    
-def get_stock_price(company:str):
-    api_key = os.getenv("Key")
-    print(api_key)
-    q =  f"{company} stock price"
-    if company.startswith("car"):
-        q = "carrefour stock symbol"
 
-    params = {
-        "engine": "google",
-        "q": q,
-        "api_key": api_key,
-        "output":"json",
-        "no_cache":False
-    }
-    search = GoogleSearch(params)
-    results = search.get_dict()
-    print(results)
-    answer_box = results["answer_box"]
-    financials = results["knowledge_graph"]["financials"]
-    price_movement = answer_box["price_movement"]
-    return [financials , answer_box , price_movement]
     
-    #Deprecated
-    
-    # replace the "demo" apikey below with your own key from https://www.alphavantage.co/support/#api-key
-    #     url = f"https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={company}&apikey={api_key}"
-    #     r = requests.get(url)
-    #     data = r.json()
-    #     
-    #     print(data)
-    #     return data
+def get_unparsed_finance_data(company:str):
+    company_symbol = execute_query_return_results(f"SELECT stock FROM FINANCES WHERE corp_title = '{company}'" , MountingScrappingServer())
+    company_symbol = company_symbol.strip()
+    print(company_symbol)
+    finances = yf.Ticker(company_symbol)
+    print(finances.info)
+    return finances.info
 
 
 def format_month_year(value:str) -> str:
@@ -106,21 +84,34 @@ def convert_to_real_value(value:str)->int:
             x = float(value[ :-1])*(10**12)
     return x
 
-def get_and_parse_stock_price(company:str)->dict:
+def get_and_parse_stock_price(company:str , using:str = "serp_api" or "yahoo_finance")->dict:
     dict = {}
-    unparsed_out = get_stock_price(company)
-    year_and_month = format_month_year(unparsed_out[0]['quarterly_financials'][0]["table"][0][1])  #Nov 2024 -> nov_2024
-    print(year_and_month)
-    dict["revenue"] = convert_to_real_value(unparsed_out[0]['quarterly_financials'][0]["formatted"][0][year_and_month])
-    dict["net_income"] = convert_to_real_value(unparsed_out[0]['quarterly_financials'][0]["formatted"][1][year_and_month])
-    dict["currency"]= unparsed_out[1]['currency']
-    dict["stock"] = unparsed_out[1]['stock']
-    dict["stock_price"] = unparsed_out[1]['price']
-    dict["stock_price_movement_status"] = unparsed_out[2]['movement'].lower()
-    dict["stock_price_movement"] = unparsed_out[2]['price']
-    dict["exchange"] = unparsed_out[1]['exchange']
-    dict["market_cap_value"] = unparsed_out[1]['table'][3]['value']
-    dict["corp_title"] = unparsed_out[1]['title']
+    unparsed_out = get_unparsed_finance_data(company)
+
+    if using.lower().startswith("serp"):
+        year_and_month = format_month_year(unparsed_out[0]['quarterly_financials'][0]["table"][0][1])  #Nov 2024 -> nov_2024
+        print(year_and_month)
+        dict["revenue"] = convert_to_real_value(unparsed_out[0]['quarterly_financials'][0]["formatted"][0][year_and_month])
+        dict["net_income"] = convert_to_real_value(unparsed_out[0]['quarterly_financials'][0]["formatted"][1][year_and_month])
+        dict["currency"]= unparsed_out[1]['currency']
+        dict["stock"] = unparsed_out[1]['stock']
+        dict["stock_price"] = unparsed_out[1]['price']
+        dict["stock_price_movement_status"] = unparsed_out[2]['movement'].lower()
+        dict["stock_price_movement"] = unparsed_out[2]['price']
+        dict["exchange"] = unparsed_out[1]['exchange']
+        dict["market_cap_value"] = unparsed_out[1]['table'][3]['value']
+        dict["corp_title"] = company
+    else:
+        dict["revenue"] = unparsed_out["totalRevenue"]
+        dict["net_income"] = unparsed_out["netIncomeToCommon"]
+        dict["currency"]= unparsed_out['currency']
+        dict["stock"] = unparsed_out['symbol']
+        dict["stock_price"] = unparsed_out['currentPrice']
+        dict["stock_price_movement_status"] = "up" if unparsed_out["currentPrice"] > unparsed_out["regularMarketPreviousClose"] else "down"
+        dict["stock_price_movement"] = abs(unparsed_out['currentPrice'] - unparsed_out['regularMarketPreviousClose'])
+        dict["exchange"] = unparsed_out['exchange']
+        dict["market_cap_value"] = unparsed_out["marketCap"]
+        dict["corp_title"] = company
     return dict
     
 
@@ -146,3 +137,47 @@ def get_and_parse_locations(location_name: str, country: str) -> dict:
         except KeyError as e:
             print(f"KeyError: {e} in {a_dict}")
     return x
+
+
+
+
+
+
+
+
+
+
+#Deprecated Again
+# def get_stock_price(company:str):
+# api_key = ""
+# print("Api key read successfully")
+# print(company)
+# q =  f"{company} stock"
+# # if company.startswith("car"):
+# #     q = "carrefour stock"
+# 
+# params = {
+#     "engine": "google",
+#     "q": q,
+#     "api_key": api_key,
+#     "output":"json",
+#     "no_cache":False
+# }
+# search = GoogleSearch(params)
+# results = search.get_dict()
+# print(results)
+# answer_box = results["answer_box"]
+# financials = results["knowledge_graph"]["financials"]
+# price_movement = answer_box["price_movement"]
+# return [financials , answer_box , price_movement]
+
+#Deprecated
+
+# replace the "demo" apikey below with your own key from https://www.alphavantage.co/support/#api-key
+#     url = f"https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={company}&apikey={api_key}"
+#     r = requests.get(url)
+#     data = r.json()
+#     
+#     print(data)
+#     return data
+

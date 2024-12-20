@@ -24,7 +24,33 @@ function parse_locations_and_get_correct_input(data){
 
 }
 
+function parse_finances_and_get_correct_input(data){
+    const rows = [];
+    let color = "#2ec700";
+    for (let i = 0; i < Object.keys(data.stock).length; i++) {
 
+        if (data.stock_price_movement_status[i] === "down") {
+            color = "#D91E32";
+        }
+        else{color = "#2ec700";}
+        const row = {
+            stock: data.stock[i],
+            revenue: data.revenue[i],
+            profit: data.profit[i],
+            market_cap: data.market_cap[i],
+            employees: data.employees[i],
+            net_income: data.net_income[i],
+            stock_price_movement: data.stock_price_movement[i],
+            stock_price_movement_status: data.stock_price_movement_status[i],
+            corp_title: data.corp_title[i],
+            exchange: data.exchange[i],
+            currency: data.currency[i],
+            color: color
+        };
+
+        rows.push(row);
+    }
+}
 
 
 
@@ -48,26 +74,28 @@ function fetchCompetitorsMapData() {
 }
 
 
-// function fetchCompetitorsFinancesData() {
-//     fetch('/api/finances')
-//         .then(response => response.json())
-//         .then(data => {
-//             console.log(data);
-//             createCompetitorsFinancesChart(data);
-//         })
-//         .catch(error => console.error('Error: ',error));
-// }
+function fetchCompetitorsStockData() {
+    console.log("called finances")
+    fetch('/api/finances')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Data Received ===> ' , data);
+            parse_finances_and_get_correct_input(data);
+        })
+        .catch(error => console.error('Error: ', error));
+
+}
 
 
 
 
 
-// Create root container
-// var root = am5.Root.new("competitors_map_chartdiv");
-// var root2 = am5.Root.new("competitors_finances_chartdiv");
 
-// root1.setThemes([am5themes_Animated.new(root)]);
-// root2.setThemes([am5themes_Animated.new(root)]);
 
 function createCompetitorsMapChart(data){
     am5.ready(function() {
@@ -205,7 +233,7 @@ function createCompetitorsMapChart(data){
 
             var main_circle = container.children.push(
                 am5.Circle.new(root, {
-                    radius: 3,
+                    radius: 4,
                     fill: data.color,  // Use color from data
                     strokeOpacity: 0
                 })
@@ -215,7 +243,7 @@ function createCompetitorsMapChart(data){
             if (data.animated === true) {
                 var animated_circle = container.children.push(
                     am5.Circle.new(root, {
-                        radius: 4,
+                        radius: 6,
                         fill: data.color,
                         strokeOpacity: 2
                     })
@@ -225,7 +253,7 @@ function createCompetitorsMapChart(data){
                     key: "scale",
                     from: 1,
                     to: 2,
-                    duration: 1000,
+                    duration: 2000,
                     easing: am5.ease.out(am5.ease.cubic),
                     loops: Infinity
                 });
@@ -234,7 +262,7 @@ function createCompetitorsMapChart(data){
                     key: "opacity",
                     from: 1,
                     to: 0.1,
-                    duration: 1000,
+                    duration: 2000,
                     easing: am5.ease.out(am5.ease.cubic),
                     loops: Infinity
                 });
@@ -277,19 +305,18 @@ function createCompetitorsMapChart(data){
 // Process data once
         for (const item of data) {
             const { ID, company, delivery, lat, lon, title } = item;
-            let color = "";
+            let color = "#004F9F";
             let animated = false;
 
             // Simplified color and animation logic
-            if (title.toLowerCase().startsWith("c")) {
-                color = "#004F9F";  // Carrefour blue
-            } else if (title.toLowerCase().startsWith("w")) {
+            // if (title.toLowerCase().startsWith("c")) {
+            //     color = "#004F9F";  // Carrefour blue
+            // }
+            if (title.toLowerCase().startsWith("w")) {
                 color = "#FFBB01";  // Walmart yellow
             } else if (title.toLowerCase().startsWith("t")) {
                 color = "#D91E32";  // Target red
                 animated = true;
-            } else {
-                color = "#004F9F";  // Default blue
             }
 
             console.log(`Processing: ${title}`, {
@@ -313,5 +340,5 @@ function createCompetitorsMapChart(data){
 
 document.addEventListener('DOMContentLoaded', function() {
     fetchCompetitorsMapData();
-    // fetchCompetitorsFinancesData();
+    fetchCompetitorsStockData();
 });
