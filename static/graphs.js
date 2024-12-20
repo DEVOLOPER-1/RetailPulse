@@ -1,3 +1,88 @@
+function fetchImage(image_name, imageId) {
+
+            const imgElement = document.getElementById(imageId);
+            imgElement.src = `/static/media/${image_name}.png`; 
+
+}
+
+function updateContainerValues(row) {
+    // Helper function to format large numbers
+    function formatNumber(num) {
+        if (num >= 1e9) {
+            return (num / 1e9).toFixed(1) + 'B';
+        } else if (num >= 1e6) {
+            return (num / 1e6).toFixed(1) + 'M';
+        }
+        return num.toFixed(2);
+    }
+
+// Helper function to format percentage
+    function formatPercentage(num) {
+        return num > 0 ? `+${num.toFixed(2)}%` : `${num.toFixed(2)}%`;
+    }
+
+
+    try {
+        // Update company title and logo
+        const companyTitle = document.querySelector('.company-header .company-title');
+        if (companyTitle) {
+            companyTitle.textContent = row.corp_title;
+        }
+
+        // Update stock price
+        const stockPrice = document.getElementById('stockPrice');
+// Update stock price
+        if (stockPrice) {
+            stockPrice.textContent = `$${row.stock_price}`;
+            stockPrice.classList.add(`movement-${row.stock_price_movement_status}`);
+        }
+
+        // Update stock movement
+        const stockMovement = document.getElementById('stockMovement');
+        if (stockMovement) {
+            stockMovement.textContent = formatPercentage(row.stock_price_movement);
+            stockMovement.classList.remove('movement-up', 'movement-down');
+            stockMovement.classList.add(`movement-${row.stock_price_movement_status}`);
+        }
+
+        // Update market cap
+        const marketCap = document.getElementById('marketCap');
+        if (marketCap) {
+            marketCap.textContent = formatNumber(row.market_cap);
+        }
+
+        // Update net income
+        const netIncome = document.getElementById('netIncome');
+        if (netIncome) {
+            netIncome.textContent = formatNumber(row.net_income);
+        }
+
+        // Update revenue
+        const revenue = document.getElementById('revenue');
+        if (revenue) {
+            revenue.textContent = formatNumber(row.revenue);
+        }
+
+        // Update stock symbol and exchange
+        const stockSymbol = document.getElementById('stockSymbol');
+        // Update stock symbol and exchange
+        if (stockSymbol) {
+            stockSymbol.textContent = `${row.stock} (${row.exchange})`;
+        }
+
+
+        // Update currency
+        const currency = document.getElementById('currency');
+        if (currency) {
+            currency.textContent = row.currency;
+        }
+
+        console.log(`Updated container values for ${row.corp_title}`);
+    } catch (error) {
+        console.error('Error updating container values:', error);
+    }
+}
+
 
 
 function parse_locations_and_get_correct_input(data){
@@ -47,6 +132,7 @@ function parse_finances_and_get_correct_input(data){
             currency: data.currency[i],
             color: color
         };
+        updateContainerValues(row);
         console.log("finance row ->", row);
         rows.push(row);
     }
@@ -85,7 +171,7 @@ function fetchCompetitorsStockData() {
             return response.json();
         })
         .then(data => {
-            console.log('Data Received ===> ' , data);
+            console.log('Finance Data Received ===> ' , data);
             parse_finances_and_get_correct_input(data);
         })
         .catch(error => console.error('Error: ', error));
@@ -227,7 +313,7 @@ function createCompetitorsMapChart(data){
 
             // Get data from the dataItem
             const data = dataItem.dataContext;
-            console.log("correct context called->", data)
+            // console.log("correct context called->", data)
             container.events.on("click", () => {
                 window.location.href = `https://www.google.com/search?q=${data.company}`;
             });
@@ -286,9 +372,9 @@ function createCompetitorsMapChart(data){
 
             existingLocations.add(locationKey);
 
-            console.log(`Adding marker:`, {
-                longitude, latitude, title, company, color, animated
-            });
+            // console.log(`Adding marker:`, {
+            //     longitude, latitude, title, company, color, animated
+            // });
 
             // Add the data point with ALL necessary properties
             pointSeries.data.push({
@@ -320,10 +406,10 @@ function createCompetitorsMapChart(data){
                 animated = true;
             }
 
-            console.log(`Processing: ${title}`, {
-                color: color,
-                animated: animated
-            });
+            // console.log(`Processing: ${title}`, {
+            //     color: color,
+            //     animated: animated
+            // });
 
             AddMarket(lon, lat, title, company, color, animated);
         }
@@ -342,4 +428,39 @@ function createCompetitorsMapChart(data){
 document.addEventListener('DOMContentLoaded', function() {
     fetchCompetitorsMapData();
     fetchCompetitorsStockData();
+    fetchImage("carrefour", "carrefour-logo")
+    fetchImage("target", "target-logo")
+    fetchImage("walmart", "walmart-logo")
+
+    updateStockMovement(5);
+    
 });
+
+
+
+
+
+
+// Deprecated Codes
+
+// async function fetchImage(image_name, imageId) {
+//     try {
+//         const response = await fetch(`/api/get_readable_image/${image_name}`);  // Use image_name instead of company
+//         const data = await response.json();
+//         console.log("loaded image data ->", data);
+//         if (data.success) {
+//             const imgElement = document.getElementById(imageId);
+//             imgElement.src = data.image;
+//         } else {
+//             console.error(`Failed to load ${image_name} logo:`, data.error);  // Use image_name here too
+//             // Set a fallback image
+//             const imgElement = document.getElementById(imageId);
+//             imgElement.src = '/static/media/placeholder.png';
+//         }
+//     } catch (error) {
+//         console.error(`Error fetching ${image_name} logo:`, error);  // And here
+//         // Set a fallback image
+//         const imgElement = document.getElementById(imageId);
+//         imgElement.src = '/static/media/carrefour.png';
+//     }
+// }
