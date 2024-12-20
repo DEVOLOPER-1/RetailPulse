@@ -182,88 +182,128 @@ function createCompetitorsMapChart(data){
 
 // Create point series for markers
 // https://www.amcharts.com/docs/v5/charts/map-chart/map-point-series/
-        var pointSeries = chart.series.push(am5map.MapPointSeries.new(root, {}));
-        var colorset = am5.ColorSet.new(root, {});
 
-        pointSeries.bullets.push(function() {
+// Function to add a market with its own bullet configuration
+        var pointSeries = chart.series.push(am5map.MapPointSeries.new(root, {}));
+
+// Keep track of existing locations to prevent duplicates
+        const existingLocations = new Set();
+
+// Define ONE bullet template for ALL points
+        pointSeries.bullets.push(function(root, series, dataItem) {  // Add parameters here
             var container = am5.Container.new(root, {
-                tooltipText: "{title}",
+                tooltipText: "{title}",  // Use template binding
                 cursorOverStyle: "pointer"
             });
 
-            container.events.on("click", (e) => {
-                window.location.href = e.target.dataItem.dataContext.url;
+            // Get data from the dataItem
+            const data = dataItem.dataContext;
+            console.log("correct context called->", data)
+            container.events.on("click", () => {
+                window.location.href = `https://www.google.com/search?q=${data.company}`;
             });
 
-
-
-            var circle = container.children.push(
+            var main_circle = container.children.push(
                 am5.Circle.new(root, {
-                    radius: 4,
-                    tooltipY: 0,
-                    fill: colorset.next(),
+                    radius: 3,
+                    fill: data.color,  // Use color from data
                     strokeOpacity: 0
                 })
             );
 
+            // Check animated property from data
+            if (data.animated === true) {
+                var animated_circle = container.children.push(
+                    am5.Circle.new(root, {
+                        radius: 4,
+                        fill: data.color,
+                        strokeOpacity: 2
+                    })
+                );
 
-            var circle2 = container.children.push(
-                am5.Circle.new(root, {
-                    radius: 4,
-                    tooltipY: 0,
-                    fill: colorset.next(),
-                    strokeOpacity: 0,
-                    tooltipText: "{title}"
-                })
-            );
+                animated_circle.animate({
+                    key: "scale",
+                    from: 1,
+                    to: 2,
+                    duration: 1000,
+                    easing: am5.ease.out(am5.ease.cubic),
+                    loops: Infinity
+                });
 
-            circle.animate({
-                key: "scale",
-                from: 1,
-                to: 5,
-                duration: 600,
-                easing: am5.ease.out(am5.ease.cubic),
-                loops: Infinity
-            });
-            circle.animate({
-                key: "opacity",
-                from: 1,
-                to: 0.1,
-                duration: 600,
-                easing: am5.ease.out(am5.ease.cubic),
-                loops: Infinity
-            });
+                animated_circle.animate({
+                    key: "opacity",
+                    from: 1,
+                    to: 0.1,
+                    duration: 1000,
+                    easing: am5.ease.out(am5.ease.cubic),
+                    loops: Infinity
+                });
+            }
 
             return am5.Bullet.new(root, {
                 sprite: container
             });
         });
-//
-// Assuming `data` is the object that contains your arrays
+
+        function AddMarket(longitude, latitude, title, company, color, animated) {
+            // Create unique location key
+            const locationKey = `${longitude},${latitude}`;
+
+            // Check if this location already exists
+            if (existingLocations.has(locationKey)) {
+                console.log(`Skipping duplicate location: ${locationKey}`);
+                return;
+            }
+
+            existingLocations.add(locationKey);
+
+            console.log(`Adding marker:`, {
+                longitude, latitude, title, company, color, animated
+            });
+
+            // Add the data point with ALL necessary properties
+            pointSeries.data.push({
+                geometry: { type: "Point", coordinates: [longitude, latitude] },
+                title: title,
+                company: company,
+                color: color,
+                animated: animated
+            });
+        }
+
+// Clear existing data
+        pointSeries.data.clear();
+
+// Process data once
         for (const item of data) {
-    const { ID, company, delivery, lat, lon, title } = item;
+            const { ID, company, delivery, lat, lon, title } = item;
+            let color = "";
+            let animated = false;
 
-    console.log(`Processing item:`, {
-        id: ID,
-        company: company,
-        delivery: delivery,
-        lat: lat,
-        lon: lon,
-        title: title
-    });
+            // Simplified color and animation logic
+            if (title.toLowerCase().startsWith("c")) {
+                color = "#004F9F";  // Carrefour blue
+            } else if (title.toLowerCase().startsWith("w")) {
+                color = "#FFBB01";  // Walmart yellow
+            } else if (title.toLowerCase().startsWith("t")) {
+                color = "#D91E32";  // Target red
+                animated = true;
+            } else {
+                color = "#004F9F";  // Default blue
+            }
 
-    // Example of adding marker (assuming you have a function to handle this)
-    AddMarket(lon, lat, title, company);
-}
+            console.log(`Processing: ${title}`, {
+                color: color,
+                animated: animated
+            });
 
-// Function to add a market (assuming pointSeries is defined elsewhere)
-function AddMarket(longitude, latitude, title, company) {
-    pointSeries.data.push({
-        url: `https://www.google.com/search?q=${company}`,
-        geometry: { type: "Point", coordinates: [longitude, latitude] },
-        title: title
-    });
-}
+            AddMarket(lon, lat, title, company, color, animated);
+        }
+
+// Ensure the series appears
+        pointSeries.appear(1000, 100);
+
+
 // Make stuff animate on load
         chart.appear(1000, 100);
 
