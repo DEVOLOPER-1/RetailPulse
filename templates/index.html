@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>My Dashboard</title>
+    <title>Retail Pulser</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
@@ -17,53 +17,31 @@
 </head>
 <body>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
-    <!-- First Container -->
-    <div class="grid grid-cols-1 gap-2 rounded-xl bg-gradient-blue p-4 text-white shadow-lg">
-        <!-- Header Section -->
-        <div class="company-header">
-        <span class="image-container" id="image_container_id">
-            <img id="target-logo" alt="Company Logo" class="company-logo">
-        </span>
-            <h2 class="company-title"></h2>
 
-            <!-- Key Metrics -->
+    <!-- First Container (Carrefour) -->
+    <div class="grid grid-cols-1 gap-2 rounded-xl bg-gradient-blue p-4 text-white shadow-lg">
+        <div class="company-header">
+        <span class="image-container" id="carrefour-logo-container">
+            <img id="carrefour-logo" src="" alt="Carrefour Logo" class="company-logo">
+        </span>
             <div class="metrics-container">
-                <!-- Stock Symbol and Exchange -->
                 <div class="metric-box">
-                    <span class="metric-value" id="stockSymbol"></span>
-                    <span class="metric-label">Symbol</span>
+                    <span class="metric-value" id="crrfy-stock-symbol">99.99%</span>
+                    <span class="metric-label">Stock</span>
                 </div>
-                <!-- Currency -->
-<!--                <div class="metric-box">-->
-<!--                    <span class="metric-value" id="currency"></span>-->
-<!--                    <span class="metric-label">Currency</span>-->
-<!--                </div>-->
-                <!-- Revenue -->
-<!--                <div class="metric-box">-->
-<!--                    <span class="metric-value" id="revenue"></span>-->
-<!--                    <span class="metric-label">Revenue</span>-->
-<!--                </div>-->
-                <!-- Market Cap -->
                 <div class="metric-box">
-                    <span class="metric-value" id="marketCap"></span>
-                    <span class="metric-label">Market Cap</span>
-                </div>
-                <!-- Net Income -->
-                <div class="metric-box">
-                    <span class="metric-value" id="netIncome"></span>
+                    <span class="metric-value" id="crrfy-net-income">$159m</span>
                     <span class="metric-label">Net Income</span>
                 </div>
             </div>
         </div>
-
-        <!-- Stock Information Section -->
         <div class="stock-info-container">
             <div class="stock-metric">
-                <span class="stock-value" id="stockPrice"></span>
+                <span class="stock-value" id="crrfy-stock-price-value">$159m</span>
                 <span class="stock-label">Stock Price</span>
             </div>
             <div class="stock-metric">
-                <span class="stock-movement" id="stockMovement"></span>
+                <span class="stock-movement" id="crrfy-stock-movement">2.5%</span>
                 <span class="stock-label">Movement</span>
             </div>
         </div>
@@ -72,13 +50,62 @@
 
 
     <!-- Second Container (Copy of First) -->
-    <div class="grid grid-cols-1 gap-2 rounded-xl bg-blue-500 text-white p-2 shadow-blue-200 dark:shadow-blue-900 shadow-lg">
-        <!-- Copy the content from first container -->
+    <!-- First Container (Carrefour) -->
+    <div class="grid grid-cols-1 gap-2 rounded-xl bg-gradient-blue p-4 text-white shadow-lg">
+        <div class="company-header">
+        <span class="image-container" id="target-logo-container">
+            <img id="target-logo" src="" alt="Carrefour Logo" class="company-logo">
+        </span>
+            <div class="metrics-container">
+                <div class="metric-box">
+                    <span class="metric-value" id="tgt-stock-symbol">99.99%</span>
+                    <span class="metric-label">Stock</span>
+                </div>
+                <div class="metric-box">
+                    <span class="metric-value" id="tgt-net-income">$159m</span>
+                    <span class="metric-label">Net Income</span>
+                </div>
+            </div>
+        </div>
+        <div class="stock-info-container">
+            <div class="stock-metric">
+                <span class="stock-value" id="tgt-stock-price-value">$159m</span>
+                <span class="stock-label">Stock Price</span>
+            </div>
+            <div class="stock-metric">
+                <span class="stock-movement" id="tgt-stock-movement">2.5%</span>
+                <span class="stock-label">Movement</span>
+            </div>
+        </div>
     </div>
 
     <!-- Third Container (Copy of First) -->
-    <div class="grid grid-cols-1 gap-2 rounded-xl bg-blue-500 text-white p-2 shadow-blue-200 dark:shadow-blue-900 shadow-lg">
-        <!-- Copy the content from first container -->
+    <div class="grid grid-cols-1 gap-2 rounded-xl bg-gradient-blue p-4 text-white shadow-lg">
+        <div class="company-header">
+        <span class="image-container" id="walmart-logo-container">
+            <img id="walmart-logo" src="" alt="Carrefour Logo" class="company-logo">
+        </span>
+            <div class="metrics-container">
+                <div class="metric-box">
+                    <span class="metric-value" id="wmt-stock-symbol">99.99%</span>
+                    <span class="metric-label">Stock</span>
+                </div>
+                <div class="metric-box">
+                    <span class="metric-value" id="wmt-net-income">$159m</span>
+                    <span class="metric-label">Net Income</span>
+                </div>
+            </div>
+        </div>
+        <div class="stock-info-container">
+            <div class="stock-metric">
+                <span class="stock-value" id="wmt-stock-price-value">$159m</span>
+                <span class="stock-label">Stock Price</span>
+            </div>
+            <div class="stock-metric">
+                <span class="stock-movement" id="wmt-stock-movement">2.5%</span>
+                <span class="stock-label">Movement</span>
+            </div>
+        </div>
     </div>
 </div>
 

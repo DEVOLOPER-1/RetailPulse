@@ -20,7 +20,7 @@ function fetchImage(image_name, imageId) {
 
 
 function updateContainerValues(row) {
-    // Helper function to format large numbers
+    // Helper functions remain the same
     function formatNumber(num) {
         if (num >= 1e9) {
             return (num / 1e9).toFixed(1) + 'B';
@@ -30,29 +30,28 @@ function updateContainerValues(row) {
         return num.toFixed(2);
     }
 
-// Helper function to format percentage
     function formatPercentage(num) {
-        return num > 0 ? `+${num.toFixed(2)}%` : `${num.toFixed(2)}%`;
+        var percentage = num/row.stock_price * 100;
+        return row.stock_price_movement_status==="up"  ? `+${percentage.toFixed(2)}%` : `-${percentage.toFixed(2)}%`;
     }
 
-
     try {
-        // Update company title and logo
-        const companyTitle = document.querySelector('.company-header .company-title');
-        if (companyTitle) {
-            companyTitle.textContent = row.corp_title;
-        }
+        // Get company prefix for IDs based on stock symbol
+        const companyPrefix = row.stock.toLowerCase();
 
         // Update stock price
-        const stockPrice = document.getElementById('stockPrice');
-// Update stock price
+        const stockPrice = document.getElementById(`${companyPrefix}-stock-price-value`);
         if (stockPrice) {
             stockPrice.textContent = `$${row.stock_price}`;
+            stockPrice.classList.remove('movement-up', 'movement-down');
             stockPrice.classList.add(`movement-${row.stock_price_movement_status}`);
         }
-
+        const stocksymbol = document.getElementById(`${companyPrefix}-stock-symbol`);
+        if (stocksymbol) {
+            stocksymbol.textContent = row.stock;
+        }
         // Update stock movement
-        const stockMovement = document.getElementById('stockMovement');
+        const stockMovement = document.getElementById(`${companyPrefix}-stock-movement`);
         if (stockMovement) {
             stockMovement.textContent = formatPercentage(row.stock_price_movement);
             stockMovement.classList.remove('movement-up', 'movement-down');
@@ -60,35 +59,21 @@ function updateContainerValues(row) {
         }
 
         // Update market cap
-        const marketCap = document.getElementById('marketCap');
+        const marketCap = document.getElementById(`${companyPrefix}-market-cap`);
         if (marketCap) {
             marketCap.textContent = formatNumber(row.market_cap);
         }
 
         // Update net income
-        const netIncome = document.getElementById('netIncome');
+        const netIncome = document.getElementById(`${companyPrefix}-net-income`);
         if (netIncome) {
             netIncome.textContent = formatNumber(row.net_income);
         }
 
         // Update revenue
-        const revenue = document.getElementById('revenue');
+        const revenue = document.getElementById(`${companyPrefix}-revenue`);
         if (revenue) {
             revenue.textContent = formatNumber(row.revenue);
-        }
-
-        // Update stock symbol and exchange
-        const stockSymbol = document.getElementById('stockSymbol');
-        // Update stock symbol and exchange
-        if (stockSymbol) {
-            stockSymbol.textContent = `${row.stock} (${row.exchange})`;
-        }
-
-
-        // Update currency
-        const currency = document.getElementById('currency');
-        if (currency) {
-            currency.textContent = row.currency;
         }
 
         console.log(`Updated container values for ${row.corp_title}`);
@@ -226,8 +211,10 @@ function createCompetitorsMapChart(data){
         var chart = root.container.children.push(
             am5map.MapChart.new(root, {
                 panX: "rotateX",
-                panY: "translateY",
-                projection: am5map.geoMercator()
+                panY: "rotateY",
+                projection: am5map.geoOrthographic(),
+                rotationX: 90,
+                rotationY: -20,
             })
         );
 
@@ -253,7 +240,8 @@ function createCompetitorsMapChart(data){
                 centerY: am5.p50,
                 icon: am5.Circle.new(root, {
                     themeTags: ["icon"]
-                })
+                }) ,
+                active:true
             })
         );
 
@@ -283,7 +271,7 @@ function createCompetitorsMapChart(data){
         var backgroundSeries = chart.series.push(am5map.MapPolygonSeries.new(root, {}));
         backgroundSeries.mapPolygons.template.setAll({
             fill: root.interfaceColors.get("alternativeBackground"),
-            fillOpacity: 0,
+            fillOpacity: 0.1,
             strokeOpacity: 0
         });
 
@@ -446,7 +434,6 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchImage("target", "target-logo")
     fetchImage("walmart", "walmart-logo")
 
-    updateStockMovement(5);
     
 });
 
