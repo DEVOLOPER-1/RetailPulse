@@ -18,35 +18,58 @@
 <body>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
     <!-- First Container -->
-    <div class="grid grid-cols-1 gap-2 rounded-xl bg-blue-500 text-white p-2 shadow-blue-200 dark:shadow-blue-900 shadow-lg">
-        <div class="flex gap-4">
-            <div class="flex-1 flex flex-col gap-1 p-2">
-                <span class="text-3xl tracking-tight leading-none">99.99%</span>
-                <span class="text-xs font-bold text-blue-100">Uptime</span>
-            </div>
-            <div class="flex-1 flex flex-col gap-1 p-2">
-                <span class="text-3xl tracking-tight leading-none">$159m</span>
-                <span class="text-xs font-bold text-blue-100">Funding</span>
-            </div>
-            <div class="flex-1 hidden lg:flex flex-col gap-1 p-2">
-                <span class="text-3xl tracking-tight leading-none">5,000</span>
-                <span class="text-xs font-bold text-blue-100">Features</span>
+    <div class="grid grid-cols-1 gap-2 rounded-xl bg-gradient-blue p-4 text-white shadow-lg">
+        <!-- Header Section -->
+        <div class="company-header">
+        <span class="image-container" id="image_container_id">
+            <img id="target-logo" alt="Company Logo" class="company-logo">
+        </span>
+            <h2 class="company-title"></h2>
+
+            <!-- Key Metrics -->
+            <div class="metrics-container">
+                <!-- Stock Symbol and Exchange -->
+                <div class="metric-box">
+                    <span class="metric-value" id="stockSymbol"></span>
+                    <span class="metric-label">Symbol</span>
+                </div>
+                <!-- Currency -->
+<!--                <div class="metric-box">-->
+<!--                    <span class="metric-value" id="currency"></span>-->
+<!--                    <span class="metric-label">Currency</span>-->
+<!--                </div>-->
+                <!-- Revenue -->
+<!--                <div class="metric-box">-->
+<!--                    <span class="metric-value" id="revenue"></span>-->
+<!--                    <span class="metric-label">Revenue</span>-->
+<!--                </div>-->
+                <!-- Market Cap -->
+                <div class="metric-box">
+                    <span class="metric-value" id="marketCap"></span>
+                    <span class="metric-label">Market Cap</span>
+                </div>
+                <!-- Net Income -->
+                <div class="metric-box">
+                    <span class="metric-value" id="netIncome"></span>
+                    <span class="metric-label">Net Income</span>
+                </div>
             </div>
         </div>
-        <div class="bg-blue-700 p-2 rounded-lg">
-            <div class="flex flex-col gap-1 p-2">
-                <div class="flex items-center text-blue-100 mb-2">
-                    <!-- Star SVGs repeated 5 times -->
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-4 h-auto">
-                        <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd"></path>
-                    </svg>
-                    <!-- Repeat SVG 4 more times -->
-                </div>
-                <span class="text-3xl tracking-tight leading-none">Rated 5 Stars</span>
-                <span class="text-xs font-bold text-blue-100">By trusted research company</span>
+
+        <!-- Stock Information Section -->
+        <div class="stock-info-container">
+            <div class="stock-metric">
+                <span class="stock-value" id="stockPrice"></span>
+                <span class="stock-label">Stock Price</span>
+            </div>
+            <div class="stock-metric">
+                <span class="stock-movement" id="stockMovement"></span>
+                <span class="stock-label">Movement</span>
             </div>
         </div>
     </div>
+
+
 
     <!-- Second Container (Copy of First) -->
     <div class="grid grid-cols-1 gap-2 rounded-xl bg-blue-500 text-white p-2 shadow-blue-200 dark:shadow-blue-900 shadow-lg">
