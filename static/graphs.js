@@ -31,15 +31,15 @@ function parse_finances_and_get_correct_input(data){
 
         if (data.stock_price_movement_status[i] === "down") {
             color = "#D91E32";
+        } else {
+            color = "#2ec700";
         }
-        else{color = "#2ec700";}
         const row = {
             stock: data.stock[i],
             revenue: data.revenue[i],
-            profit: data.profit[i],
-            market_cap: data.market_cap[i],
-            employees: data.employees[i],
+            market_cap: data.market_cap_value[i],
             net_income: data.net_income[i],
+            stock_price: data.stock_price[i],
             stock_price_movement: data.stock_price_movement[i],
             stock_price_movement_status: data.stock_price_movement_status[i],
             corp_title: data.corp_title[i],
@@ -47,9 +47,10 @@ function parse_finances_and_get_correct_input(data){
             currency: data.currency[i],
             color: color
         };
-
+        console.log("finance row ->", row);
         rows.push(row);
     }
+    return rows;
 }
 
 
