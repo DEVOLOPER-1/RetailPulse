@@ -534,14 +534,16 @@ function createCompetitorsMapChart(data){
 
 document.addEventListener('DOMContentLoaded', function() {
     fetchCompetitorsMapData();
-    setInterval(fetchCompetitorsStockData, 30000);
+    fetchCompetitorsStockData();
     fetchImage("carrefour", "carrefour-logo")
     fetchImage("target", "target-logo")
+    fetchImage("target", "target-logo-header")
     fetchImage("walmart", "walmart-logo")
     // Start the simulation
     startSimulation();    
 });
 
+setInterval(fetchCompetitorsStockData, 30000);
 
 
 

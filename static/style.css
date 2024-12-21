@@ -30,6 +30,13 @@
   height: auto;
 }
 
+.target-logo-header-resize {
+  width: 85px !important;  /* !important -> overriding other styles */
+  height: auto;
+  object-fit: contain;
+}
+
+
 
 /* Container Styling */
 .bg-gradient-blue {

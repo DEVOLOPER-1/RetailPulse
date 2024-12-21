@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Retail Pulser</title>
+    <title>Target Market Analysis</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
@@ -10,111 +10,168 @@
     <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="/tailwind.config.js" defer> </script>
+    <script src="/tailwind.config.js" defer></script>
     <script src="/static/graphs.js" defer></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<body class="min-h-screen flex flex-col bg-gray-50">
+<!-- Header Section -->
+<header class="bg-white shadow-sm">
+    <div class="mx-auto max-w-7xl px-4 py-4">
+        <div class="flex items-center justify-between">
+            <!-- Left side with Target logo and title -->
+            <div class="flex items-center space-x-4">
+                <span class="image-container" id="target-logo-container-header">
+                    <img id="target-logo-header" src="" alt="Target Logo" class="target-logo-header-resize">
+                </span>
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
-
-    <!-- First Container (Carrefour) -->
-    <div class="grid grid-cols-1 gap-2 rounded-xl bg-gradient-blue p-4 text-white shadow-lg">
-        <div class="company-header">
-        <span class="image-container" id="carrefour-logo-container">
-            <img id="carrefour-logo" src="" alt="Carrefour Logo" class="company-logo">
-        </span>
-            <div class="metrics-container">
-                <div class="metric-box">
-                    <span class="metric-value" id="crrfy-stock-symbol">99.99%</span>
-                    <span class="metric-label">Stock</span>
-                </div>
-                <div class="metric-box">
-                    <span class="metric-value" id="crrfy-net-income">$159m</span>
-                    <span class="metric-label">Net Income</span>
+                <div>
+                    <h1 class="text-xl font-bold text-gray-900">Target Market Intelligence</h1>
+                    <p class="text-sm text-gray-600">Competitive Analysis Dashboard</p>
                 </div>
             </div>
-        </div>
-        <div class="stock-info-container">
-            <div class="stock-metric">
-                <span class="stock-value" id="crrfy-stock-price-value">$159m</span>
-                <span class="stock-label">Stock Price</span>
-            </div>
-            <div class="stock-metric">
-                <span class="stock-movement" id="crrfy-stock-movement">2.5%</span>
-                <span class="stock-label">Movement</span>
+
+            <!-- Right side with date and refresh -->
+            <div class="flex items-center space-x-6">
+                <div class="text-right">
+                    <p class="text-sm text-gray-600">Last Updated</p>
+                    <p class="text-sm font-semibold text-gray-900" id="current-date"></p>
+                </div>
+                <button class="p-2 rounded-full hover:bg-gray-100">
+                    <i class="fas fa-sync-alt text-gray-600"></i>
+                </button>
             </div>
         </div>
     </div>
+</header>
 
-
-
-    <!-- Second Container (Copy of First) -->
-    <!-- First Container (Carrefour) -->
-    <div class="grid grid-cols-1 gap-2 rounded-xl bg-gradient-blue p-4 text-white shadow-lg">
-        <div class="company-header">
-        <span class="image-container" id="target-logo-container">
-            <img id="target-logo" src="" alt="Carrefour Logo" class="company-logo">
-        </span>
-            <div class="metrics-container">
-                <div class="metric-box">
-                    <span class="metric-value" id="tgt-stock-symbol">99.99%</span>
-                    <span class="metric-label">Stock</span>
+<!-- Main Content -->
+<main class="flex-grow p-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- First Container (Carrefour) -->
+        <div class="grid grid-cols-1 gap-2 rounded-xl bg-gradient-blue p-4 text-white shadow-lg">
+            <div class="company-header">
+                    <span class="image-container" id="carrefour-logo-container">
+                        <img id="carrefour-logo" src="" alt="Carrefour Logo" class="company-logo">
+                    </span>
+                <div class="metrics-container">
+                    <div class="metric-box">
+                        <span class="metric-value" id="crrfy-stock-symbol">99.99%</span>
+                        <span class="metric-label">Stock</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="metric-value" id="crrfy-net-income">$159m</span>
+                        <span class="metric-label">Net Income</span>
+                    </div>
                 </div>
-                <div class="metric-box">
-                    <span class="metric-value" id="tgt-net-income">$159m</span>
-                    <span class="metric-label">Net Income</span>
+            </div>
+            <div class="stock-info-container">
+                <div class="stock-metric">
+                    <span class="stock-value" id="crrfy-stock-price-value">$159m</span>
+                    <span class="stock-label">Stock Price</span>
+                </div>
+                <div class="stock-metric">
+                    <span class="stock-movement" id="crrfy-stock-movement">2.5%</span>
+                    <span class="stock-label">Movement</span>
                 </div>
             </div>
         </div>
-        <div class="stock-info-container">
-            <div class="stock-metric">
-                <span class="stock-value" id="tgt-stock-price-value">$159m</span>
-                <span class="stock-label">Stock Price</span>
+
+        <!-- Second Container (Target) -->
+        <div class="grid grid-cols-1 gap-2 rounded-xl bg-gradient-blue p-4 text-white shadow-lg">
+            <div class="company-header">
+                    <span class="image-container" id="target-logo-container">
+                        <img id="target-logo" src="" alt="Target Logo" class="company-logo">
+                    </span>
+                <div class="metrics-container">
+                    <div class="metric-box">
+                        <span class="metric-value" id="tgt-stock-symbol">99.99%</span>
+                        <span class="metric-label">Stock</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="metric-value" id="tgt-net-income">$159m</span>
+                        <span class="metric-label">Net Income</span>
+                    </div>
+                </div>
             </div>
-            <div class="stock-metric">
-                <span class="stock-movement" id="tgt-stock-movement">2.5%</span>
-                <span class="stock-label">Movement</span>
+            <div class="stock-info-container">
+                <div class="stock-metric">
+                    <span class="stock-value" id="tgt-stock-price-value">$159m</span>
+                    <span class="stock-label">Stock Price</span>
+                </div>
+                <div class="stock-metric">
+                    <span class="stock-movement" id="tgt-stock-movement">2.5%</span>
+                    <span class="stock-label">Movement</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Third Container (Walmart) -->
+        <div class="grid grid-cols-1 gap-2 rounded-xl bg-gradient-blue p-4 text-white shadow-lg">
+            <div class="company-header">
+                    <span class="image-container" id="walmart-logo-container">
+                        <img id="walmart-logo" src="" alt="Walmart Logo" class="company-logo">
+                    </span>
+                <div class="metrics-container">
+                    <div class="metric-box">
+                        <span class="metric-value" id="wmt-stock-symbol">99.99%</span>
+                        <span class="metric-label">Stock</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="metric-value" id="wmt-net-income">$159m</span>
+                        <span class="metric-label">Net Income</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stock-info-container">
+                <div class="stock-metric">
+                    <span class="stock-value" id="wmt-stock-price-value">$159m</span>
+                    <span class="stock-label">Stock Price</span>
+                </div>
+                <div class="stock-metric">
+                    <span class="stock-movement" id="wmt-stock-movement">2.5%</span>
+                    <span class="stock-label">Movement</span>
+                </div>
             </div>
         </div>
     </div>
-
-    <!-- Third Container (Copy of First) -->
-    <div class="grid grid-cols-1 gap-2 rounded-xl bg-gradient-blue p-4 text-white shadow-lg">
-        <div class="company-header">
-        <span class="image-container" id="walmart-logo-container">
-            <img id="walmart-logo" src="" alt="Carrefour Logo" class="company-logo">
-        </span>
-            <div class="metrics-container">
-                <div class="metric-box">
-                    <span class="metric-value" id="wmt-stock-symbol">99.99%</span>
-                    <span class="metric-label">Stock</span>
-                </div>
-                <div class="metric-box">
-                    <span class="metric-value" id="wmt-net-income">$159m</span>
-                    <span class="metric-label">Net Income</span>
-                </div>
-            </div>
-        </div>
-        <div class="stock-info-container">
-            <div class="stock-metric">
-                <span class="stock-value" id="wmt-stock-price-value">$159m</span>
-                <span class="stock-label">Stock Price</span>
-            </div>
-            <div class="stock-metric">
-                <span class="stock-movement" id="wmt-stock-movement">2.5%</span>
-                <span class="stock-label">Movement</span>
-            </div>
-        </div>
-    </div>
-</div>
-
     <div id="competitors_map_chartdiv" class="mt-4"></div>
-    
-    
-    
+</main>
+
+<!-- Footer Section -->
+<footer class="bg-white border-t border-gray-200 mt-8">
+    <div class="mx-auto max-w-7xl px-4 py-4">
+        <div class="flex justify-between items-center">
+            <!-- Left side -->
+            <div class="flex items-center space-x-4">
+                    <span class="text-red-600">
+                        <i class="fas fa-chart-line mr-2"></i>
+                        Market Analytics
+                    </span>
+                <span class="text-gray-400">|</span>
+                <span class="text-sm text-gray-600">Confidential - For Internal Use Only</span>
+            </div>
+            <!-- Right side -->
+            <div class="flex items-center space-x-4 text-sm text-gray-600">
+                <span><i class="fas fa-clock mr-1"></i> Real-time Data</span>
+                <span><i class="fas fa-shield-alt mr-1"></i> Secure Connection</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Date -->
+<script>
+    document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </body>
 </html>
