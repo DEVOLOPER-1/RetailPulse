@@ -1,23 +1,78 @@
-function showPurchaseToast(data){
-    let c2 = "#ae3232";
-    let c1 = "#D91E32";
+// Create a global array to store animated circles
+let animatableCircles = [];
+
+// Function to animate a random circle when purchase occurs
+function animateRandomMarket() {
+    if (animatableCircles.length > 0) {
+        // Get a random circle from the array
+        const randomIndex = Math.floor(Math.random() * animatableCircles.length);
+        const target = animatableCircles[randomIndex];
+        var root = target.circle.root;
+        // Create and add animated circle if it doesn't exist
+        let animatedCircle = target.container.children.push(
+            am5.Circle.new(root, {
+                radius: 6,
+                fill: am5.color(target.dataItem.dataContext.color),
+                strokeOpacity: 0
+            })
+        );
+
+        animatedCircle.animate({
+                key: "scale",
+                from: 1,
+                to: 4,
+                duration: 3000,
+                easing: am5.ease.out(am5.ease.cubic),
+                loops: 1
+            });
+
+        animatedCircle.animate({
+                key: "opacity",
+                from: 1,
+                to: 0,
+                duration: 3000,
+                easing: am5.ease.out(am5.ease.cubic),
+                loops: 1
+            });
+        
+
+    }
+}
+function showPurchaseToast(data) {
+    // Colors matching dashboard theme
+    let c1 = "#004F9F";  // Primary blue from your dashboard
+    let c2 = "#2b70c9";  // Lighter blue for gradient effect
+
     Toastify({
-        text: `Purchase Made !`,
-        duration: 3000, // Duration in ms (3000ms = 3 seconds)
-        gravity: "bottom", // "top" or "bottom"
-        position: "right", // "left", "center", "right"
+        text: "✓ Purchase Made!", // Added checkmark for better visual feedback
+        duration: 3000,
+        gravity: "bottom",
+        position: "right",
         backgroundColor: `linear-gradient(to right, ${c1}, ${c2})`,
-        close: true, // Add a close button
-        stopOnFocus: true, // Prevents dismissing of toast on hover
+        className: "purchase-toast",
+        close: true,
+        stopOnFocus: true,
+        style: {
+            background: `linear-gradient(to right, ${c1}, ${c2})`,
+            borderRadius: "8px",
+            padding: "12px 24px",
+            color: "white",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            fontSize: "14px",
+            fontWeight: "500"
+        },
         onClick: function() {
             alert(
-            `   Purchase: ${data.order_id}
-                Category: ${data['product category']}
-                price: ${data.payment_value}$
-                PaymentWay: ${data.payment_type}!`);
+                `Purchase Details:\n` +
+                `Order ID: ${data.order_id}\n` +
+                `Category: ${data['product category']}\n` +
+                `Price: $${data.payment_value}\n` +
+                `Payment Method: ${data.payment_type}`
+            );
         }
     }).showToast();
 }
+
 
 function getRandomInterval(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -36,9 +91,10 @@ function fetchPurchase(){
 
 // Start the simulation loop
 function startSimulation() {
+    // Animate a random market
+    animateRandomMarket();
     // Make a purchase
     fetchPurchase();
-
     // Schedule the next purchase after a random interval
     const nextInterval = getRandomInterval(2000, 5000); // Random interval between 2-5 seconds
     setTimeout(startSimulation, nextInterval);
@@ -366,42 +422,45 @@ function createCompetitorsMapChart(data){
                 window.location.href = `https://www.google.com/search?q=${data.company}`;
             });
 
-            var main_circle = container.children.push(
+            // Create the main circle
+            var mainCircle = container.children.push(
                 am5.Circle.new(root, {
                     radius: 4,
-                    fill: data.color,  // Use color from data
+                    fill: am5.color(dataItem.dataContext.color),
                     strokeOpacity: 0
                 })
             );
 
+
             // Check animated property from data
             if (data.animated === true) {
-                var animated_circle = container.children.push(
-                    am5.Circle.new(root, {
-                        radius: 6,
-                        fill: data.color,
-                        strokeOpacity: 2
-                    })
-                );
-
-                animated_circle.animate({
-                    key: "scale",
-                    from: 1,
-                    to: 2,
-                    duration: 2000,
-                    easing: am5.ease.out(am5.ease.cubic),
-                    loops: Infinity
+                // Store the circle reference and its container
+                animatableCircles.push({
+                    circle: mainCircle,
+                    container: container,
+                    dataItem: dataItem
                 });
-
-                animated_circle.animate({
-                    key: "opacity",
-                    from: 1,
-                    to: 0.1,
-                    duration: 2000,
-                    easing: am5.ease.out(am5.ease.cubic),
-                    loops: Infinity
-                });
+                console.log("animated circles ->", animatableCircles)
             }
+
+            //     animated_circle.animate({
+            //         key: "scale",
+            //         from: 1,
+            //         to: 2,
+            //         duration: 2000,
+            //         easing: am5.ease.out(am5.ease.cubic),
+            //         loops: Infinity
+            //     });
+            //
+            //     animated_circle.animate({
+            //         key: "opacity",
+            //         from: 1,
+            //         to: 0.1,
+            //         duration: 2000,
+            //         easing: am5.ease.out(am5.ease.cubic),
+            //         loops: Infinity
+            //     });
+            // }
 
             return am5.Bullet.new(root, {
                 sprite: container
