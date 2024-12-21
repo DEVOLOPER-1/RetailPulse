@@ -534,7 +534,7 @@ function createCompetitorsMapChart(data){
 
 document.addEventListener('DOMContentLoaded', function() {
     fetchCompetitorsMapData();
-    fetchCompetitorsStockData();
+    setInterval(fetchCompetitorsStockData, 30000);
     fetchImage("carrefour", "carrefour-logo")
     fetchImage("target", "target-logo")
     fetchImage("walmart", "walmart-logo")
