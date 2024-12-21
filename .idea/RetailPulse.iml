@@ -15,5 +15,6 @@
     <orderEntry type="library" name="Animated" level="application" />
     <orderEntry type="library" name="map" level="application" />
     <orderEntry type="library" name="worldLow" level="application" />
+    <orderEntry type="library" name="toastify-js" level="application" />
   </component>
 </module>

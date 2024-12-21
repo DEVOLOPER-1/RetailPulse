@@ -32,3 +32,8 @@ def build_locations():
 
 # build_locations()
 
+intiated_prchases_df = False
+
+def get_purchase_table():
+    if not intiated_prchases_df:
+        return make_df_from_table_name("PURCHASES")

@@ -1,5 +1,6 @@
-from modules.data_processing import retrieve_table
-from modules.automator import build_finances , build_locations 
+import random
+from modules.data_processing import retrieve_table , make_df_from_table_name
+from modules.automator import build_finances , build_locations  , get_purchase_table
 import base64
 from io import BytesIO
 from PIL import Image
@@ -13,6 +14,8 @@ import os
 app = Flask(__name__ , static_folder="static")
 
 CORS(app) #enables  Flask app to handle requests from different origins
+
+displayed_purchases = []
 @app.route('/')
 def index():
     return render_template("index.html")
@@ -62,6 +65,18 @@ def get_readable_image(image_name):
             "success": False,
             "error": str(e)
         }), 400
+@app.route('/api/get_purchase')
+def is_called():
+    df = get_purchase_table()
+    max_index = df.shape[0]
+    random_row = df.iloc[random.randint(0, max_index - 1)].to_dict()
+    if random_row not in displayed_purchases:
+        displayed_purchases.append(random_row)
+        print("Called again get_purchase" , random_row)
+        return jsonify(random_row)
     
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)

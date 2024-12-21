@@ -1,7 +1,5 @@
 import sqlite3
-
 import sqlalchemy
-from adodbapi import Cursor
 from sqlalchemy import create_engine , text , Connection
 from sqlalchemy.exc import SQLAlchemyError
 import pandas as pd
@@ -118,3 +116,30 @@ def execute_query_return_results(SqlQuery: str, conn: sqlalchemy.engine.Engine, 
         print(f"Error executing query: {e}")
         transaction.rollback()  # Rollback on error
         raise
+    
+    
+    
+    
+    
+def building_target_markt_data():
+    df1 = pd.read_csv("scrapped_data/e-commerce-target-sales-dataset/versions/1/orders.csv", sep=",")
+    df2 = pd.read_csv("scrapped_data/e-commerce-target-sales-dataset/versions/1/products.csv", sep=",")
+    df3 = pd.read_csv("scrapped_data/e-commerce-target-sales-dataset/versions/1/customers.csv", sep=",")
+    df4 = pd.read_csv("scrapped_data/e-commerce-target-sales-dataset/versions/1/order_items.csv", sep=",")
+    df5 = pd.read_csv("scrapped_data/e-commerce-target-sales-dataset/versions/1/payments.csv", sep=",")
+    df6 = pd.read_csv("scrapped_data/e-commerce-target-sales-dataset/versions/1/order_items.csv", sep=",")
+
+    join1 = pd.merge(df1, df3, on="customer_id", how="inner")
+    join2 = pd.merge(join1, df4, on="order_id", how="inner")
+    join3 = pd.merge(join2, df5, on="order_id", how="inner")
+    join4 = pd.merge(join3, df2, on="product_id", how="inner")  # Adjusted merge key
+    join5 = pd.merge(join4, df6, on="order_id", how="inner")
+    join5 = join5[["order_id", "customer_id", "order_status", "payment_type", "payment_value", "product category"]]
+
+    print(join5.columns)
+    join5.to_sql("PURCHASES", MountingScrappingServer(), if_exists="replace", index=False)
+    print("Data Inserted into Target Market Table")
+
+
+def make_df_from_table_name(table_name:str)->pd.DataFrame:
+    return pd.read_sql_table(table_name, "sqlite:///all_markets_data.db")

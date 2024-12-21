@@ -1,3 +1,49 @@
+function showPurchaseToast(data){
+    let c2 = "#ae3232";
+    let c1 = "#D91E32";
+    Toastify({
+        text: `Purchase Made !`,
+        duration: 3000, // Duration in ms (3000ms = 3 seconds)
+        gravity: "bottom", // "top" or "bottom"
+        position: "right", // "left", "center", "right"
+        backgroundColor: `linear-gradient(to right, ${c1}, ${c2})`,
+        close: true, // Add a close button
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        onClick: function() {
+            alert(
+            `   Purchase: ${data.order_id}
+                Category: ${data['product category']}
+                price: ${data.payment_value}$
+                PaymentWay: ${data.payment_type}!`);
+        }
+    }).showToast();
+}
+
+function getRandomInterval(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+
+function fetchPurchase(){
+    fetch('/api/get_purchase')
+    .then(response => response.json())
+    .then(data => {
+        console.log("purchase->",data);
+        showPurchaseToast(data);
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+// Start the simulation loop
+function startSimulation() {
+    // Make a purchase
+    fetchPurchase();
+
+    // Schedule the next purchase after a random interval
+    const nextInterval = getRandomInterval(2000, 5000); // Random interval between 2-5 seconds
+    setTimeout(startSimulation, nextInterval);
+}
+
 function fetchImage(image_name, imageId) {
     try {
         const imgElement = document.getElementById(imageId);
@@ -433,8 +479,8 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchImage("carrefour", "carrefour-logo")
     fetchImage("target", "target-logo")
     fetchImage("walmart", "walmart-logo")
-
-    
+    // Start the simulation
+    startSimulation();    
 });
 
 
