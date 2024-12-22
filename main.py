@@ -1,5 +1,4 @@
 import random
-from gunicorn.app.wsgiapp import run
 from modules.data_processing import retrieve_table , make_df_from_table_name
 from modules.automator import build_finances , build_locations  , get_purchase_table
 import base64
@@ -44,10 +43,8 @@ def is_called():
         return jsonify(random_row)
     
 
-
 if __name__ == '__main__':
-        run()
-
+    app.run(debug=True)
 
 
 
