@@ -35,10 +35,7 @@ Follow these steps to set up and run the dashboard:
 ### Installation
 1. Clone this repository to your local machine:
    ```bash
-   git clone https://github.com/DEVOLOPER-1/RetailPulse
-
-
-
+   git clone https://github.com/DEVOLOPER-1/RetailPulse.git
 
 2. Navigate to the project directory:
    ```bash
@@ -108,7 +105,7 @@ This project is licensed under the [MIT License](LICENSE).
 ## 📬 Contact
 For questions or feedback, feel free to reach out:
 - **Linkedin**: [Youssef Mohammad](https://www.linkedin.com/in/youssef-mohammad-9341a71a7)
-- **GitHub**: [yourusername](https://github.com/DEVOLOPER-1)
+- **GitHub**: [DEVOLOPER-1](https://github.com/DEVOLOPER-1)
 
 ---
 ✨ Happy analyzing! ✨

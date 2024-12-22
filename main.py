@@ -1,4 +1,5 @@
 import random
+from gunicorn.app.wsgiapp import run
 from modules.data_processing import retrieve_table , make_df_from_table_name
 from modules.automator import build_finances , build_locations  , get_purchase_table
 import base64
@@ -31,40 +32,7 @@ def financials():
 
 
 
-@app.route('/api/get_readable_image/<image_name>')
-def get_readable_image(image_name):
-    try:
-        # Define the path to your images directory
-        image_path = os.path.join('static', 'media', f'{image_name}.png')
 
-        # Check if file exists
-        if not os.path.exists(image_path):
-            return jsonify({
-                "success": False,
-                "error": "Image not found"
-            }), 404
-
-        # Open and read the image
-        img = Image.open(image_path)
-
-        # Converting image to byte stream
-        img_io = BytesIO()
-        img.save(img_io, format='PNG')
-
-        # Convert to base64
-        img_base64 = base64.b64encode(img_io.getvalue()).decode('utf-8')
-
-        return jsonify({
-            "success": True,
-            "image": img_base64
-        })
-
-    except Exception as e:
-        print(f"Error processing image: {str(e)}")
-        return jsonify({
-            "success": False,
-            "error": str(e)
-        }), 400
 @app.route('/api/get_purchase')
 def is_called():
     df = get_purchase_table()
@@ -77,6 +45,52 @@ def is_called():
     
 
 
-
 if __name__ == '__main__':
-    app.run(debug=True)
+        run()
+
+
+
+
+
+
+
+
+
+
+
+#Deprecated
+
+# @app.route('/api/get_readable_image/<image_name>')
+# def get_readable_image(image_name):
+#     try:
+#     # Define the path to your images directory
+#         image_path = os.path.join('static', 'media', f'{image_name}.png')
+#     
+#         # Check if file exists
+#         if not os.path.exists(image_path):
+#             return jsonify({
+#                 "success": False,
+#                 "error": "Image not found"
+#             }), 404
+#     
+#         # Open and read the image
+#         img = Image.open(image_path)
+#     
+#         # Converting image to byte stream
+#         img_io = BytesIO()
+#         img.save(img_io, format='PNG')
+#     
+#         # Convert to base64
+#         img_base64 = base64.b64encode(img_io.getvalue()).decode('utf-8')
+#     
+#         return jsonify({
+#             "success": True,
+#             "image": img_base64
+#         })
+#     
+#     except Exception as e:
+#         print(f"Error processing image: {str(e)}")
+#         return jsonify({
+#             "success": False,
+#             "error": str(e)
+#         }), 400

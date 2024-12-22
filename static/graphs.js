@@ -2,9 +2,10 @@
 let animatableCircles = [];
 
 // Function to animate a random circle when purchase occurs
-function animateRandomMarket() {
+function animateRandomMarket(OrderPrice) {
     if (animatableCircles.length > 0) {
         // Get a random circle from the array
+        const scale = 1+ Math.min(OrderPrice/100 , 4);
         const randomIndex = Math.floor(Math.random() * animatableCircles.length);
         const target = animatableCircles[randomIndex];
         var root = target.circle.root;
@@ -20,7 +21,7 @@ function animateRandomMarket() {
         animatedCircle.animate({
                 key: "scale",
                 from: 1,
-                to: 4,
+                to: scale,
                 duration: 3000,
                 easing: am5.ease.out(am5.ease.cubic),
                 loops: 1
@@ -84,19 +85,17 @@ function fetchPurchase(){
     .then(response => response.json())
     .then(data => {
         console.log("purchase->",data);
+        animateRandomMarket(data["payment_value"]);
         showPurchaseToast(data);
     })
     .catch(error => console.error('Error:', error));
 }
 
-// Start the simulation loop
 function startSimulation() {
-    // Animate a random market
-    animateRandomMarket();
-    // Make a purchase
+    // purchase made
     fetchPurchase();
-    // Schedule the next purchase after a random interval
-    const nextInterval = getRandomInterval(2000, 5000); // Random interval between 2-5 seconds
+    // next purchase after a random interval
+    const nextInterval = getRandomInterval(2000, 5000); //  2-5 seconds
     setTimeout(startSimulation, nextInterval);
 }
 
