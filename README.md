@@ -5,7 +5,7 @@ Welcome to the **Target Market Intelligence Dashboard** repository! 🎉 This to
 ---
 
 ## 📽️ Showcase Video  
-_(Add your showcase video link here for an engaging demo!)_
+_[Demo](https://mega.nz/file/sKoRTSia#pL4DvLnilsSuPEQRdELqXUdxEXY68JV1Jgz7ZirJKQY)_
 
 ---
 
@@ -78,7 +78,7 @@ Follow these steps to set up and run the dashboard:
 
 3. **Monitor Real-Time Activity**:
    - Check live purchase simulations via toast notifications.  
-   - Follow animated map markers to observe active store regions.
+   - Observe dynamic marker animations where **pulse motion adapts to order price**, highlighting significant transactions.
 
 ---
 
