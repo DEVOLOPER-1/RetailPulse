@@ -1,12 +1,8 @@
 import random
 from modules.data_processing import retrieve_table , make_df_from_table_name
 from modules.automator import build_finances , build_locations  , get_purchase_table
-import base64
-from io import BytesIO
-from PIL import Image
 from flask import Flask, jsonify, render_template
 from flask_cors import CORS
-import os
 
 # build_locations()
 # build_finances()

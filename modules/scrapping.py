@@ -3,7 +3,6 @@ from serpapi import GoogleSearch
 from dotenv import load_dotenv
 import yfinance as yf
 from modules.data_processing import execute_query_return_results , MountingScrappingServer
-import pandas_datareader as pdr
 import os
 
 load_dotenv(dotenv_path="../secret.env", verbose=True)

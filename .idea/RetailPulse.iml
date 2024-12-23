@@ -17,4 +17,7 @@
     <orderEntry type="library" name="worldLow" level="application" />
     <orderEntry type="library" name="toastify-js" level="application" />
   </component>
+  <component name="PackageRequirementsSettings">
+    <option name="removeUnused" value="true" />
+  </component>
 </module>

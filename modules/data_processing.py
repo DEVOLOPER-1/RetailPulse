@@ -3,7 +3,6 @@ import sqlalchemy
 from sqlalchemy import create_engine , text , Connection
 from sqlalchemy.exc import SQLAlchemyError
 import pandas as pd
-import os
 
 def create_db()->sqlite3.Connection:
     db_path = "all_markets_data.db"
